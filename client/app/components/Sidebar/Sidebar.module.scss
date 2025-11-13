@@ -1,17 +1,18 @@
 .sidebar {
   width: 280px;
-  background: #202124;
-  border-right: 1px solid #2E3033;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   padding: 16px 12px;
   flex-shrink: 0;
+  transition: background 0.3s ease, border-color 0.3s ease;
 
   h2 {
     font-family: 'Google Sans', sans-serif;
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-weight: 800;
-    color: white;
+    color: var(--sidebar-title);
     margin-bottom: 12px;
     padding: 8px 12px;
     display: flex;
@@ -20,8 +21,8 @@
     text-transform: uppercase;
 
     .onlineCount {
-      background: #543F46;
-      color: white;
+      background: var(--sidebar-onlineCount-bg);
+      color: var(--sidebar-onlineCount-text);
       font-size: 0.75rem;
       padding: 5px 10px;
       border-radius: 16px;
@@ -29,6 +30,7 @@
     }
   }
 }
+
 .usersList {
   flex: 1;
   overflow-y: auto;
@@ -42,14 +44,15 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: red;
+    background: var(--scrollbar-bg);
     border-radius: 4px;
 
     &:hover {
-      background: red;
+      background: var(--scrollbar-hover-bg);
     }
   }
 }
+
 .userItem {
   display: flex;
   align-items: center;
@@ -62,20 +65,20 @@
   cursor: default;
 
   &:hover {
-    background: rgba(232, 234, 237, 0.08);
+    background: var(--sidebar-userItem-hover-bg);
   }
 
   .statusDot {
     width: 8px;
     height: 8px;
-    background: #34a853;
+    background: var(--sidebar-statusDot);
     border-radius: 50%;
     flex-shrink: 0;
   }
 
   .username {
     font-family: "Montserrat", sans-serif;
-    color: white;
+    color: var(--sidebar-username);
     font-weight: 500;
     font-size: 0.875rem;
     overflow: hidden;
@@ -83,16 +86,17 @@
     white-space: nowrap;
   }
 }
+
 .connectionStatus {
   margin-top: auto;
   padding-top: 16px;
   padding: 16px 12px 0;
-  border-top: 1px solid #2E3033;
+  border-top: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   gap: 10px;
   font-size: 0.8125rem;
-  color: white;
+  color: var(--sidebar-connectionStatus);
   font-weight: 500;
 
   .statusIndicator {
@@ -102,15 +106,14 @@
     flex-shrink: 0;
 
     &.connected {
-      background: #34a853;
+      background: var(--sidebar-status-connected);
     }
 
     &.disconnected {
-      background: #ff1b1b;
+      background: var(--sidebar-status-offline);
     }
   }
 }
-
 
 @media (max-width: 768px) {
   .sidebar {

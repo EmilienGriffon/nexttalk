@@ -15,11 +15,11 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: red;
+    background: var(--scrollbar-bg);
     border-radius: 4px;
 
     &:hover {
-      background: #ff0000;
+      background: var(--scrollbar-hover-bg);
     }
   }
 }
@@ -47,6 +47,7 @@
     transform: translateY(0);
   }
 }
+
 .message {
   max-width: 65%;
   padding: 10px 16px;
@@ -55,8 +56,8 @@
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
 
   &.own {
-    background: #4285f4;
-    color: white;
+    background: var(--msg-own-bg);
+    color: var(--msg-own-text);
     border-bottom-right-radius: 4px;
 
     .messageTime {
@@ -65,12 +66,12 @@
   }
 
   &.other {
-    background: #2d2e30;
-    color: white;
+    background: var(--msg-other-bg);
+    color: var(--msg-other-text);
     border-bottom-left-radius: 4px;
 
     .messageUsername {
-      color: #4285f4;
+      color: var(--msg-username-text);
       font-weight: 500;
       font-size: 1rem;
       margin-bottom: 4px;
@@ -87,18 +88,19 @@
 
   .messageTime {
     font-size: 0.6875rem;
-    color: #ccc;
+    color: var(--msg-time-text);
     text-align: right;
     margin-top: 4px;
     font-weight: 400;
   }
 }
+
 .systemMessage {
   text-align: center;
-  color: white;
+  color: var(--msg-system-text);
   font-size: 0.8125rem;
   padding: 6px 16px;
-  background: #2d2e30;
+  background: var(--msg-system-bg);
   border-radius: 16px;
   margin: 4px auto;
   max-width: fit-content;
@@ -118,10 +120,10 @@
 }
 
 @media (max-width: 768px) {
-  
   .messagesContainer {
     padding: 16px 20px;
-  }  
+  }
+
   .message {
     max-width: 85%;
   }

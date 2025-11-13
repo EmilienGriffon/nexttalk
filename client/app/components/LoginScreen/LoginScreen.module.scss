@@ -5,13 +5,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1a1a1a;
+  background: var(--loginContainer-bg);
   position: relative;
 }
 
 .loginBox {
-  background: #fff;
-  border: 1px solid #4285f4;
+  background: var(--loginBox-bg);
+  border: 1px solid var(--loginBox-border);
   border-radius: 28px;
   padding: 64px 56px;
   width: 100%;
@@ -36,7 +36,7 @@
     }
     
     h1 {
-      color: #a83493;
+      color: var(--loginContainer-title);
       margin-bottom: 8px;
       font-size: 2.25rem;
       font-weight: 400;
@@ -45,7 +45,7 @@
     }
     
     .subtitle {
-      color: #ccc;
+      color: var(--loginContainer-subtitle);
       font-size: 1rem;
       font-weight: 400;
       margin-top: 8px;
@@ -59,20 +59,13 @@
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  color: #a83493;
+  color: var(--loginContainer-title);
   font-family: 'Orbitron', sans-serif;
   font-size: 2.25rem;
   font-weight: 500;
   letter-spacing: -0.5px;
   border-right: 2px solid transparent;
   animation: typing 5.5s steps(10, end) infinite alternate;
-}
-
-.cursor {
-  display: inline-block;
-  margin-left: 4px;
-  color: #66ccff;
-  animation: blink 1s step-end infinite;
 }
 
 @keyframes typing {
@@ -94,4 +87,9 @@
   50% {
     opacity: 0;
   }
+}
+.themeSwitch {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
 }
