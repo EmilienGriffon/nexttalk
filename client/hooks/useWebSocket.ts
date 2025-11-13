@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 
 export interface ChatMessage {
-    type: 'message' | 'user_joined' | 'user_left' | 'user_list';
+    type: 'message' | 'user_joined' | 'user_left' | 'user_list' | 'typing_users';
     username?: string;
     message?: string;
     users?: string[];
@@ -11,6 +11,7 @@ export interface ChatMessage {
 export const useWebSocket = (url: string, username: string) => {
     const [messages, setMessage] = useState<ChatMessage[]>([]);
     const [users, setUsers] = useState<string[]>([]);
+    const [typingUsers, setTypingUsers] = useState<string[]>([]); // <-- nouvel état
     const [isConnected, setIsConnected] = useState(false);
     const wsRef = useRef<WebSocket | null>(null);
 
@@ -36,7 +37,11 @@ export const useWebSocket = (url: string, username: string) => {
 
                 if (data.type === 'user_list') {
                     setUsers(data.users || []);
-                } else if (data.type === 'message' || data.type === 'user_joined' || data.type === 'user_left') {
+                } 
+                else if (data.type === 'typing_users') {
+                    setTypingUsers(data.users || []);
+                } 
+                else if (data.type === 'message' || data.type === 'user_joined' || data.type === 'user_left') {
                     setMessage((prev) => [...prev, data]);
                 }
             } catch (error) {
@@ -69,5 +74,15 @@ export const useWebSocket = (url: string, username: string) => {
         }
     }, []);
 
-    return { messages, users, isConnected, sendMessage };
-}
+const sendTypingStatus = useCallback((typing: boolean) => {
+  if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+    wsRef.current.send(JSON.stringify({
+      type: typing ? 'typing' : 'stop_typing',
+      username: username
+    }));
+  }
+}, [username]);
+
+
+    return { messages, users, typingUsers, isConnected, sendMessage, sendTypingStatus };
+};

@@ -56,6 +56,9 @@ export const darkTheme = createTheme({
           '--msg-system-text': '#ccc', 
           '--msg-username-text': '#4285f4ff', 
           '--msg-time-text': '#ccc', 
+          '--msg-typing-bg': '#4285f4', 
+          '--msg-typing-text': '#fff',
+          '--msg-typing-dots': '#fff',
 
           '--sidebar-bg': '#202124', 
           '--sidebar-title': '#fff', 
@@ -125,16 +128,19 @@ export const lightTheme = createTheme({
           '--inputContainer-bg': '#dfdedb', 
 
           '--scrollbar-bg': '#9d9d9d', 
-          '--scrollbar-hover-bg': '#bd7a0b', 
+          '--scrollbar-hover-bg': '#a1c5ff', 
 
-          '--msg-own-bg': '#bd7a0b', 
+          '--msg-own-bg': '#a1c5ff', 
           '--msg-own-text': '#000000', 
           '--msg-other-bg': '#d1cfcc', 
           '--msg-other-text': '#000000', 
           '--msg-system-bg': '#cdccc7', 
           '--msg-system-text': '#333333', 
-          '--msg-username-text': '#bd7a0b', 
+          '--msg-username-text': '#a1c5ff', 
           '--msg-time-text': '#333333', 
+          '--msg-typing-bg': '#d1cfcc', 
+          '--msg-typing-text': '#000',
+          '--msg-typing-dots': '#000',
 
           '--sidebar-bg': '#dfdedb', 
           '--sidebar-title': '#000', 

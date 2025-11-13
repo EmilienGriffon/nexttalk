@@ -16,7 +16,7 @@ export default function ChatPage() {
   const [messageInput, setMessageInput] = useState('');
   const [isDark, setIsDark] = useState(true);
 
-  const { messages, users, isConnected, sendMessage } = useWebSocket(
+  const { messages, users, typingUsers, isConnected, sendMessage, sendTypingStatus } = useWebSocket(
     'ws://localhost:8080',
     isJoined ? username : ''
   );
@@ -32,7 +32,6 @@ export default function ChatPage() {
   };
 
   const toggleTheme = () => setIsDark(!isDark);
-
   const currentTheme = isDark ? darkTheme : lightTheme;
 
   if (!isJoined) {
@@ -47,44 +46,51 @@ export default function ChatPage() {
   return (
     <ThemeProvider theme={currentTheme}>
       <CssBaseline />
-        <div data-theme={isDark ? 'dark' : 'light'} className={styles.chatContainer}>
-          <Sidebar users={users} isConnected={isConnected} />
-          <div className={styles.mainChat}>
-            <div className={styles.chatHeader} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Typography variant="h1" component="h1">
-                Bienvenue, {username} ! 👋
-              </Typography>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={isDark}
-                    onChange={toggleTheme}
-                    color="secondary"
-                    sx={{
-                      '& .MuiSwitch-thumb': { transition: 'all 0.3s' },
-                      '& .MuiSwitch-track': { transition: 'background-color 0.3s' },
-                    }}
-                  />
-                }
-                label={isDark ? '🌙 Mode sombre' : '☀️ Mode clair'}
-              />
-            </div>
-            <MessageList
-              messages={messages.map((msg) => ({
-                ...msg,
-                username: msg.username ?? 'Inconnu',
-                timestamp: msg.timestamp ? Number(msg.timestamp) : undefined,
-              }))}
-              username={username}
-            />
-            <MessageInput
-              messageInput={messageInput}
-              setMessageInput={setMessageInput}
-              isConnected={isConnected}
-              onSend={handleSend}
+      <div data-theme={isDark ? 'dark' : 'light'} className={styles.chatContainer}>
+        <Sidebar users={users} isConnected={isConnected} />
+        <div className={styles.mainChat}>
+          <div
+            className={styles.chatHeader}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+          >
+            <Typography variant="h1" component="h1">
+              Bienvenue, {username} ! 👋
+            </Typography>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isDark}
+                  onChange={toggleTheme}
+                  color="secondary"
+                  sx={{
+                    '& .MuiSwitch-thumb': { transition: 'all 0.3s' },
+                    '& .MuiSwitch-track': { transition: 'background-color 0.3s' },
+                  }}
+                />
+              }
+              label={isDark ? '🌙' : '☀️'}
             />
           </div>
+
+          <MessageList
+            messages={messages.map((msg) => ({
+              ...msg,
+              username: msg.username ?? 'Inconnu',
+              timestamp: msg.timestamp ? Number(msg.timestamp) : undefined,
+            }))}
+            username={username}
+            typingUsers={typingUsers.filter((u) => u !== username)} // n’affiche pas soi-même
+          />
+
+          <MessageInput
+            messageInput={messageInput}
+            setMessageInput={setMessageInput}
+            isConnected={isConnected}
+            onSend={handleSend}
+            sendTypingStatus={sendTypingStatus} // utilisez celui de useWebSocket
+          />
         </div>
+      </div>
     </ThemeProvider>
   );
 }

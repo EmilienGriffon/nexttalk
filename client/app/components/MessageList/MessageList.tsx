@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import styles from './MessageList.module.scss';
 
 interface Message {
-  type: 'message' | 'user_joined' | 'user_left' | 'user_list';
+  type: 'message' | 'user_joined' | 'user_left' | 'user_list' | 'typing_users';
   username?: string;
   message?: string;
   timestamp?: number;
@@ -12,9 +12,10 @@ interface Message {
 interface MessageListProps {
   messages: Message[];
   username: string;
+  typingUsers?: string[]; 
 }
 
-export default function MessageList({ messages, username }: MessageListProps) {
+export default function MessageList({ messages, username, typingUsers = [] }: MessageListProps) {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -55,6 +56,22 @@ export default function MessageList({ messages, username }: MessageListProps) {
         }
         return null;
       })}
+      {typingUsers.length > 0 && (
+        <div className={styles.typingBubbleWrapper}>
+          {typingUsers.map((user) => (
+            <div key={user} className={styles.typingBubble}>
+              <span className={styles.username}>{user}</span>
+              <span className={styles.dots}>
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+
       <div ref={endRef} />
     </div>
   );

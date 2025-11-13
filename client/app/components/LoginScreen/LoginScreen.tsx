@@ -97,7 +97,7 @@ export default function LoginScreen({ username, setUsername, onJoin }: LoginScre
                       }}
                     />
                   }
-                  label={isDark ? '🌙 Mode sombre' : '☀️ Mode clair'}
+                  label={isDark ? '🌙' : '☀️'}
                 />
               </div>
             </Box>

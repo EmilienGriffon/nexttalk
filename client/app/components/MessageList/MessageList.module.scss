@@ -128,3 +128,49 @@
     max-width: 85%;
   }
 }
+
+.typingBubbleWrapper {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+  position: relative;
+}
+
+.typingBubble {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: var(--msg-typing-bg);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  color: var(--msg-typing-text);
+}
+
+.username {
+  margin-right: 6px;
+  font-weight: 500;
+}
+
+.dots {
+  display: flex;
+  gap: 3px;
+
+  span {
+    width: 5px;
+    height: 5px;
+    background: var(--msg-typing-dots);
+    border-radius: 50%;
+    animation: blink 1.4s infinite both;
+  }
+
+  span:nth-child(1) { animation-delay: 0s; }
+  span:nth-child(2) { animation-delay: 0.2s; }
+  span:nth-child(3) { animation-delay: 0.4s; }
+}
+
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0; }
+  40% { opacity: 1; }
+}
+
