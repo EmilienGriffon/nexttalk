@@ -28,7 +28,7 @@ Voici quelques idées de fonctionnalités pour NextTalk, avec un statut facileme
 
 | Fonctionnalité                                     | Statut       |
 |---------------------------------------------------|-------------|
-| Authentification avancée (inscription, OAuth)     | 🔴 À faire  |
+| Authentification avancée (inscription, OAuth)     | 🟠 En Cours  |
 | Historique des messages dans une base de données  | 🔴 À faire  |
 | Notifications en temps réel                        | 🔴 À faire  |
 | Emojis et réactions aux messages                  | 🔴 À faire  |
