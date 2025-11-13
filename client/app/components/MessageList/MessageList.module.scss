@@ -1,0 +1,128 @@
+.messagesContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: red;
+    border-radius: 4px;
+
+    &:hover {
+      background: #ff0000;
+    }
+  }
+}
+
+.messageWrapper {
+  display: flex;
+  animation: messageAppear 0.2s cubic-bezier(0.2, 0, 0, 1);
+
+  &.own {
+    justify-content: flex-end;
+  }
+
+  &.other {
+    justify-content: flex-start;
+  }
+}
+
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.message {
+  max-width: 65%;
+  padding: 10px 16px;
+  border-radius: 18px;
+  word-wrap: break-word;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+
+  &.own {
+    background: #4285f4;
+    color: white;
+    border-bottom-right-radius: 4px;
+
+    .messageTime {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  &.other {
+    background: #2d2e30;
+    color: white;
+    border-bottom-left-radius: 4px;
+
+    .messageUsername {
+      color: #4285f4;
+      font-weight: 500;
+      font-size: 1rem;
+      margin-bottom: 4px;
+      font-family: 'Google Sans', sans-serif;
+    }
+  }
+
+  .messageText {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+
+  .messageTime {
+    font-size: 0.6875rem;
+    color: #ccc;
+    text-align: right;
+    margin-top: 4px;
+    font-weight: 400;
+  }
+}
+.systemMessage {
+  text-align: center;
+  color: white;
+  font-size: 0.8125rem;
+  padding: 6px 16px;
+  background: #2d2e30;
+  border-radius: 16px;
+  margin: 4px auto;
+  max-width: fit-content;
+  font-weight: 400;
+  animation: systemMessageAppear 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+@keyframes systemMessageAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  
+  .messagesContainer {
+    padding: 16px 20px;
+  }  
+  .message {
+    max-width: 85%;
+  }
+}

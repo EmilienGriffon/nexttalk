@@ -1,0 +1,119 @@
+.sidebar {
+  width: 280px;
+  background: #202124;
+  border-right: 1px solid #2E3033;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  flex-shrink: 0;
+
+  h2 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: .875rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-transform: uppercase;
+
+    .onlineCount {
+      background: #543F46;
+      color: white;
+      font-size: 0.75rem;
+      padding: 5px 10px;
+      border-radius: 16px;
+      font-weight: 500;
+    }
+  }
+}
+.usersList {
+  flex: 1;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: red;
+    border-radius: 4px;
+
+    &:hover {
+      background: red;
+    }
+  }
+}
+.userItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  margin-bottom: 2px;
+  background: transparent;
+  border-radius: 24px;
+  transition: background 0.2s cubic-bezier(0.2, 0, 0, 1);
+  cursor: default;
+
+  &:hover {
+    background: rgba(232, 234, 237, 0.08);
+  }
+
+  .statusDot {
+    width: 8px;
+    height: 8px;
+    background: #34a853;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .username {
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    font-weight: 500;
+    font-size: 0.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+.connectionStatus {
+  margin-top: auto;
+  padding-top: 16px;
+  padding: 16px 12px 0;
+  border-top: 1px solid #2E3033;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8125rem;
+  color: white;
+  font-weight: 500;
+
+  .statusIndicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    &.connected {
+      background: #34a853;
+    }
+
+    &.disconnected {
+      background: #ff1b1b;
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}
