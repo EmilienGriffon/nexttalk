@@ -79,7 +79,7 @@ export default function ChatPage() {
               timestamp: msg.timestamp ? Number(msg.timestamp) : undefined,
             }))}
             username={username}
-            typingUsers={typingUsers.filter((u) => u !== username)} // n’affiche pas soi-même
+            typingUsers={typingUsers.filter((u) => u !== username)}
           />
 
           <MessageInput
@@ -87,7 +87,7 @@ export default function ChatPage() {
             setMessageInput={setMessageInput}
             isConnected={isConnected}
             onSend={handleSend}
-            sendTypingStatus={sendTypingStatus} // utilisez celui de useWebSocket
+            sendTypingStatus={sendTypingStatus}
           />
         </div>
       </div>

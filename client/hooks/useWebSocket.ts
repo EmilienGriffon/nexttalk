@@ -11,7 +11,7 @@ export interface ChatMessage {
 export const useWebSocket = (url: string, username: string) => {
     const [messages, setMessage] = useState<ChatMessage[]>([]);
     const [users, setUsers] = useState<string[]>([]);
-    const [typingUsers, setTypingUsers] = useState<string[]>([]); // <-- nouvel état
+    const [typingUsers, setTypingUsers] = useState<string[]>([]);
     const [isConnected, setIsConnected] = useState(false);
     const wsRef = useRef<WebSocket | null>(null);
 

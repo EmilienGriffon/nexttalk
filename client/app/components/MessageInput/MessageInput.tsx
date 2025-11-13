@@ -22,20 +22,31 @@ export default function MessageInput({
   const [isTyping, setIsTyping] = useState(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setMessageInput(e.target.value);
 
-if (!isTyping) {
-  setIsTyping(true);
-  sendTypingStatus(true);
-}
+    if (!isTyping) {
+      setIsTyping(true);
+      sendTypingStatus(true);
+    }
 
-if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
 
-typingTimeoutRef.current = setTimeout(() => {
-  setIsTyping(false);
-  sendTypingStatus(false);
-}, 1500);
+    typingTimeoutRef.current = setTimeout(() => {
+      setIsTyping(false);
+      sendTypingStatus(false);
+    }, 1500);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+
+      if (messageInput.trim()) {
+        const fakeEvent = { preventDefault: () => {} } as unknown as React.FormEvent;
+        onSend(fakeEvent);
+      }
+    }
   };
 
   return (
@@ -43,11 +54,23 @@ typingTimeoutRef.current = setTimeout(() => {
       <Box component="form" onSubmit={onSend} className={styles.inputForm}>
         <TextField
           fullWidth
+          multiline
+          minRows={1}
+          maxRows={6}
           variant="outlined"
-          placeholder="Tape ton message..."
+          placeholder="Écris ton message... (Shift + Entrée pour une nouvelle ligne)"
           value={messageInput}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           disabled={!isConnected}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '12px',
+            },
+            '& textarea': {
+              resize: 'none',
+            },
+          }}
         />
         <Button
           type="submit"
