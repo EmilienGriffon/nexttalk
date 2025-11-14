@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ThemeProvider, CssBaseline, Typography, FormControlLabel, Switch } from '@mui/material';
+import { ThemeProvider, CssBaseline, Typography, FormControlLabel, Switch, Box } from '@mui/material';
 import { darkTheme, lightTheme } from '@/theme';
 import { useWebSocket } from '@/hooks/useWebSocket';
 import Sidebar from './components/Sidebar/Sidebar';
@@ -16,9 +16,17 @@ export default function ChatPage() {
   const [messageInput, setMessageInput] = useState('');
   const [isDark, setIsDark] = useState(true);
 
-const { messages, users, typingUsers, isConnected, sendMessage, sendTypingStatus, sendReaction } =
-  useWebSocket('ws://localhost:8080', isJoined ? username : '');
-
+  const {
+    messages,
+    users,
+    typingUsers,
+    isConnected,
+    sendMessage,
+    sendTypingStatus,
+    sendReaction,
+    soundEnabled,
+    toggleSound,
+  } = useWebSocket('ws://localhost:8080', isJoined ? username : '');
 
   const handleJoin = () => setIsJoined(true);
 
@@ -33,12 +41,9 @@ const { messages, users, typingUsers, isConnected, sendMessage, sendTypingStatus
   const toggleTheme = () => setIsDark(!isDark);
   const currentTheme = isDark ? darkTheme : lightTheme;
 
-
-const handleReaction = (messageIndex: number, emoji: string) => {
-  sendReaction(messageIndex, emoji);
-};
-
-
+  const handleReaction = (messageIndex: number, emoji: string) => {
+    sendReaction(messageIndex, emoji);
+  };
 
   if (!isJoined) {
     return (
@@ -62,21 +67,34 @@ const handleReaction = (messageIndex: number, emoji: string) => {
             <Typography variant="h1" component="h1">
               Bienvenue, {username} ! 👋
             </Typography>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={isDark}
-                  onChange={toggleTheme}
-                  color="secondary"
-                  sx={{
-                    '& .MuiSwitch-thumb': { transition: 'all 0.3s' },
-                    '& .MuiSwitch-track': { transition: 'background-color 0.3s' },
-                  }}
-                />
-              }
-              label={isDark ? '🌙' : '☀️'}
-            />
+            <Box display="flex" alignItems="center" gap={2}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={isDark}
+                    onChange={toggleTheme}
+                    color="secondary"
+                    sx={{
+                      '& .MuiSwitch-thumb': { transition: 'all 0.3s' },
+                      '& .MuiSwitch-track': { transition: 'background-color 0.3s' },
+                    }}
+                  />
+                }
+                label={isDark ? '🌙' : '☀️'}
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={soundEnabled}
+                    onChange={toggleSound}
+                    color="primary"
+                  />
+                }
+                label={soundEnabled ? '🔔' : '🔕'}
+              />
+            </Box>
           </div>
+
           <MessageList
             messages={messages.map((msg) => ({
               ...msg,
@@ -88,6 +106,7 @@ const handleReaction = (messageIndex: number, emoji: string) => {
             typingUsers={typingUsers.filter((u) => u !== username)}
             onReact={handleReaction}
           />
+
           <MessageInput
             messageInput={messageInput}
             setMessageInput={setMessageInput}
