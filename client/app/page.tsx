@@ -16,10 +16,9 @@ export default function ChatPage() {
   const [messageInput, setMessageInput] = useState('');
   const [isDark, setIsDark] = useState(true);
 
-  const { messages, users, typingUsers, isConnected, sendMessage, sendTypingStatus } = useWebSocket(
-    'ws://localhost:8080',
-    isJoined ? username : ''
-  );
+const { messages, users, typingUsers, isConnected, sendMessage, sendTypingStatus, sendReaction } =
+  useWebSocket('ws://localhost:8080', isJoined ? username : '');
+
 
   const handleJoin = () => setIsJoined(true);
 
@@ -33,6 +32,13 @@ export default function ChatPage() {
 
   const toggleTheme = () => setIsDark(!isDark);
   const currentTheme = isDark ? darkTheme : lightTheme;
+
+
+const handleReaction = (messageIndex: number, emoji: string) => {
+  sendReaction(messageIndex, emoji);
+};
+
+
 
   if (!isJoined) {
     return (
@@ -71,17 +77,17 @@ export default function ChatPage() {
               label={isDark ? '🌙' : '☀️'}
             />
           </div>
-
           <MessageList
             messages={messages.map((msg) => ({
               ...msg,
               username: msg.username ?? 'Inconnu',
               timestamp: msg.timestamp ? Number(msg.timestamp) : undefined,
+              reactions: msg.reactions ?? {},
             }))}
             username={username}
             typingUsers={typingUsers.filter((u) => u !== username)}
+            onReact={handleReaction}
           />
-
           <MessageInput
             messageInput={messageInput}
             setMessageInput={setMessageInput}

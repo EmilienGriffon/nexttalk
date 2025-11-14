@@ -25,16 +25,12 @@
 }
 
 .messageWrapper {
+  position: relative;
   display: flex;
   animation: messageAppear 0.2s cubic-bezier(0.2, 0, 0, 1);
 
-  &.own {
-    justify-content: flex-end;
-  }
-
-  &.other {
-    justify-content: flex-start;
-  }
+  &.own { justify-content: flex-end; }
+  &.other { justify-content: flex-start; }
 }
 
 @keyframes messageAppear {
@@ -49,6 +45,7 @@
 }
 
 .message {
+  position: relative; 
   max-width: 65%;
   padding: 10px 16px;
   border-radius: 18px;
@@ -63,6 +60,10 @@
     .messageTime {
       color: rgba(255, 255, 255, 0.7);
     }
+    .addReactionButton {
+      right: auto;
+      left: -30px;
+    }
   }
 
   &.other {
@@ -76,6 +77,10 @@
       font-size: 1rem;
       margin-bottom: 4px;
       font-family: 'Google Sans', sans-serif;
+    }
+    .addReactionButton {
+      right: -30px;
+      left: auto;
     }
   }
 
@@ -242,4 +247,61 @@
   &:hover {
     opacity: 0.8;
   }
+}
+.addReactionButton {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  font-size: 16px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  z-index: 5;
+
+  &:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
+  }
+}
+
+.reactionBar {
+  position: absolute;
+  bottom: 100%; 
+  right: 0;
+  display: flex;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 12px;
+  background: rgba(40, 40, 40, 0.95);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 10;
+  animation: fadeIn 0.15s ease;
+}
+
+.reactionEmoji {
+  font-size: 18px;
+  background: rgba(255,255,255,0.05);
+  border: none;
+  border-radius: 50%;
+  padding: 6px;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.15s;
+
+  &:hover { 
+    background: rgba(255,255,255,0.2); 
+    transform: scale(1.25); 
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }

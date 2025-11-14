@@ -1,7 +1,9 @@
 'use client';
 import { useState, useRef } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, IconButton, useTheme } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import EmojiPicker, { Theme } from 'emoji-picker-react';
 import styles from './MessageInput.module.scss';
 
 interface MessageInputProps {
@@ -19,8 +21,15 @@ export default function MessageInput({
   onSend,
   sendTypingStatus,
 }: MessageInputProps) {
+
+  const muiTheme = useTheme();
+  const isDarkMode = muiTheme.palette.mode === "dark";
+
   const [isTyping, setIsTyping] = useState(false);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setMessageInput(e.target.value);
@@ -49,9 +58,37 @@ export default function MessageInput({
     }
   };
 
+  const addEmoji = (emojiData: { emoji: string }) => {
+    setMessageInput(messageInput + emojiData.emoji);
+
+    setShowEmojiPicker(false);
+    inputRef.current?.focus();
+  };
+
+
   return (
     <div className={styles.inputContainer}>
       <Box component="form" onSubmit={onSend} className={styles.inputForm}>
+
+        <div className={styles.emojiButtonWrapper}>
+          <IconButton onClick={() => setShowEmojiPicker((prev) => !prev)}>
+            <InsertEmoticonIcon />
+          </IconButton>
+
+          {showEmojiPicker && (
+            <div className={styles.emojiPicker}>
+              <EmojiPicker
+                onEmojiClick={addEmoji}
+                theme={isDarkMode ? Theme.DARK : Theme.LIGHT}
+                lazyLoadEmojis
+                autoFocusSearch={false}
+                previewConfig={{ showPreview: false }}
+                searchPlaceHolder="Rechercher..."
+              />
+            </div>
+          )}
+        </div>
+
         <TextField
           fullWidth
           multiline
@@ -63,6 +100,7 @@ export default function MessageInput({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           disabled={!isConnected}
+          inputRef={inputRef}
           sx={{
             '& .MuiOutlinedInput-root': {
               borderRadius: '12px',
@@ -72,6 +110,7 @@ export default function MessageInput({
             },
           }}
         />
+
         <Button
           type="submit"
           variant="contained"

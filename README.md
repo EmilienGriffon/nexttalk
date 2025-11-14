@@ -28,14 +28,14 @@ Voici quelques idées de fonctionnalités pour NextTalk, avec un statut facileme
 
 | Fonctionnalité                                     | Statut       |
 |---------------------------------------------------|-------------|
-| Thèmes personnalisables (clair/sombre)           | 🟢 Terminé  |
-| Indicateur de saisie (qui écrit)                  | 🟢 Terminé  |
+| Thèmes personnalisables (clair/sombre)            | 🟢 Terminé |
+| Indicateur de saisie (qui écrit)                  | 🟢 Terminé |
 | Mise en place d'un markdown                       | 🟢 Terminé |
-| Emojis et réactions aux messages                  | 🟠 En cours |
-| Authentification avancée (inscription, OAuth)     | 🔴 À faire  |
-| Historique des messages dans une base de données  | 🔴 À faire  |
-| Notifications en temps réel                        | 🔴 À faire  |
-| Salles de discussion multiples / salons privés    | 🔴 À faire  |
-| Recherche de messages                             | 🔴 À faire  |
-| Partage de fichiers ou images                     | 🔴 À faire  |
-| Version mobile optimisée / PWA                    | 🔴 À faire  |
+| Emojis et réactions aux messages                  | 🟢 Terminé |
+| Notifications en temps réel                       | 🟠 En Cours|
+| Authentification avancée (inscription, OAuth)     | 🔴 À faire |
+| Historique des messages dans une base de données  | 🔴 À faire |
+| Salles de discussion multiples / salons privés    | 🔴 À faire |
+| Recherche de messages                             | 🔴 À faire |
+| Partage de fichiers ou images                     | 🔴 À faire |
+| Version mobile optimisée / PWA                    | 🔴 À faire |

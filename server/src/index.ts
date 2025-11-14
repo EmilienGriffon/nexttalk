@@ -8,15 +8,18 @@ interface User {
 }
 
 interface ChatMessage {
-  type: 'message' | 'user_joined' | 'user_left' | 'user_list' | 'typing_users';
+  type: 'message' | 'user_joined' | 'user_left' | 'user_list' | 'typing_users' | 'reaction_update';
   username?: string;
   message?: string;
   users?: string[];
   timestamp?: number;
+  messageIndex?: number;
+  reactions?: { [emoji: string]: number };
 }
 
 const users = new Map<WebSocket, User>();
 const typingUsersSet = new Set<string>();
+const chatMessages: ChatMessage[] = [];
 
 const server = http.createServer();
 const wss = new WebSocketServer({ server });
@@ -31,7 +34,7 @@ function broadcast(message: ChatMessage, excludeWs?: WebSocket) {
 }
 
 function sendUserList() {
-  const userList = Array.from(users.values()).map(user => user.username);
+  const userList = Array.from(users.values()).map((user) => user.username);
   broadcast({ type: 'user_list', users: userList });
 }
 
@@ -45,6 +48,7 @@ function generateId(): string {
 
 wss.on('connection', (ws: WebSocket) => {
   console.log('Nouvelle connexion WebSocket');
+  ws.send(JSON.stringify({ type: 'message_history', messages: chatMessages }));
 
   ws.on('message', (data: string) => {
     try {
@@ -54,18 +58,22 @@ wss.on('connection', (ws: WebSocket) => {
       if (message.type === 'join' && message.username) {
         const newUser: User = { id: generateId(), username: message.username, ws };
         users.set(ws, newUser);
-
         console.log(`${newUser.username} a rejoint le chat`);
 
         broadcast({ type: 'user_joined', username: newUser.username, timestamp: Date.now() }, ws);
         sendUserList();
       }
 
-      else if (message.type === 'message' && message.message) {
-        if (user) {
-          console.log(`Message de ${user.username}: ${message.message}`);
-          broadcast({ type: 'message', username: user.username, message: message.message, timestamp: Date.now() });
-        }
+      else if (message.type === 'message' && message.message && user) {
+        const newMsg: ChatMessage = {
+          type: 'message',
+          username: user.username,
+          message: message.message,
+          timestamp: Date.now(),
+          reactions: {},
+        };
+        chatMessages.push(newMsg);
+        broadcast(newMsg);
       }
 
       else if ((message.type === 'typing' || message.type === 'stop_typing') && user) {
@@ -73,6 +81,23 @@ wss.on('connection', (ws: WebSocket) => {
         else typingUsersSet.delete(user.username);
         broadcastTypingUsers();
       }
+
+else if (message.type === 'reaction' && user) {
+  const { messageIndex, emoji } = message;
+  const targetMessage = chatMessages[messageIndex];
+
+  if (targetMessage) {
+    if (!targetMessage.reactions) targetMessage.reactions = {};
+    targetMessage.reactions[emoji] = (targetMessage.reactions[emoji] || 0) + 1;
+    broadcast({
+      type: 'reaction_update',
+      messageIndex,
+      reactions: targetMessage.reactions
+    });
+  }
+}
+
+
 
     } catch (error) {
       console.error('Erreur lors du parsing du message:', error);
